@@ -10,7 +10,7 @@
     tools:context=".FirstFragment">
 
 
-    <com.jama.voicetotext.WaveformView2
+    <com.jama.voicetotext.WaveformView
         android:id="@+id/waveformView"
         android:layout_width="match_parent"
         android:layout_height="80dp"/>

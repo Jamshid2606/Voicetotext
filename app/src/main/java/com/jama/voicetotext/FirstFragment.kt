@@ -30,6 +30,7 @@ class FirstFragment : Fragment() {
     private var textView:TextView?=null
     private var btn:ImageView?=null
     private var isRecording:Boolean?=false
+    private var waveformView:WaveformView?=null
     // oncreate override qlingani
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +72,7 @@ class FirstFragment : Fragment() {
     ): View? {
         textView =  container?.findViewById(R.id.textFr)
         btn = container?.findViewById(R.id.button)
+//        waveformView = WaveformView(requireContext())
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(requireContext())
         btn?.setImageResource(R.drawable.baseline_mic_off_24)
         val speechRecognizerIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
@@ -85,22 +87,19 @@ class FirstFragment : Fragment() {
             }
             override fun onRmsChanged(p0: Float) {
                 Log.d("FRAAAAAAAAAAAA", "onRmsChanged ${p0}")
-
+//                WaveformView(requireContext(),attrs = null).addAmplitude(p0)
+                waveformView?.addAmplitude(p0)
             }
 
-            override fun onLanguageDetection(results: Bundle) {
-                super.onLanguageDetection(results)
-
-            }
             override fun onBufferReceived(p0: ByteArray?) {}
             override fun onEndOfSpeech() {}
             override fun onError(p0: Int) {}
             override fun onResults(bundle: Bundle?) {
-                Log.d("FRAAAAAAAAAAAA", "onResults")
                 btn?.setImageResource(R.drawable.baseline_mic_off_24)
                 val data = bundle?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                 textView?.text = data?.get(0) ?: ""
-
+                val text = data?.get(0) ?: ""
+                Log.d("DAATAAA is:" , text)
             }
             override fun onPartialResults(p0: Bundle?) {}
             override fun onEvent(p0: Int, p1: Bundle?) {}
@@ -116,4 +115,5 @@ class FirstFragment : Fragment() {
         }
         return inflater.inflate(R.layout.fragment_first, container, false)
     }
+
 }
